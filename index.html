@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        
+        body{
+            background-color: black;
+            margin: 50px;
+            font-family:cursive;
+            display: flex;
+            align-items: center;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            width: 350px;
+            height:70%;
+            padding: 20px;
+            background-color:#5d5959;
+            border-radius: 10px;
+            position: fixed;
+            top: 15%;
+            left: 45%;
+            margin-top: -50px;
+            margin-left: -100px;
+};
+            
+
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .fields {
+            display: flex;
+            
+            gap: 10px;
+            margin-bottom: 10px;
+            background-color:black;
+            
+        }
+        form {
+            display: flex;
+            gap:10px;
+            flex-direction: column;
+            color:white;
+        }
+        label{
+            border-radius: 20px;
+            
+        }
+        .fields input,select{
+            border: none;
+            -webkit-appearance:none;
+            -ms-appearance:none;
+            -moz-appearance:none;
+            appearance: none;
+            background-color: black;
+            color: white;
+        }
+        .header {
+
+        }
+        )
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <form id="registrationForm">
+            <div class="header">Register Here</div>
+            <div class="fields">
+                <label for="name"> Full Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span id="nameError" class="error"></span>
+            </div>
+
+            <div class="fields">
+                <label for="email"> BITS Pilani Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span id="emailError" class="error"></span>
+            </div>
+
+            <div class="fields">
+                <label for="phone"> Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+                <span id="phoneError" class="error"></span>
+            </div>
+
+            <div class="fields">
+                <label for="Bits-id">   BITS ID: </label>
+                <input type="text" id="Bits-id" name="Bits-id" required>
+                <span id="idError" class="error"></span>
+            </div>
+
+            <div class="fields">
+                <label for="hostel"> Hostel:</label>
+                <select id="hostel" required>
+                    <option value="">Select Hostel</option>
+                    <option value="Ashok Bhawan">Ashok Bhawan</option>
+                    <option value="Bhagirath Bhawan">Bhagirath Bhawan</option>
+                    <option value="Budh Bhawan">Budh Bhawan</option>
+                    <option value="CVR Bhawan">CVR Bhawan</option>
+                    <option value="Gandhi Bhawan">Gandhi Bhawan</option>
+                    <option value="Krishna Bhawan">Krishna Bhawan</option>
+                    <option value="Malviya Bhawan">Malviya Bhawan</option>
+                    <option value="Meera Bhawan">Meera Bhawan</option>
+                    <option value="Ram Bhawan">Ram Bhawan</option>
+                    <option value="Rana Pratap Bhawan">Rana Pratap Bhawan</option>
+                    <option value="Shankar Bhawan">Shankar Bhawan</option>
+                    <option value="Shrinivasa Ramanujan Bhawan">Shrinivasa Ramanujan Bhawan</option>
+                    <option value="Vishwakarma Bhawan">Vishwakarma Bhawan</option>
+                    <option value="Vyas Bhawan">Vyas Bhawan</option>
+                </select>
+                <span id="hostelError" class="error"></span>
+            </div>
+
+            <div class="fields1">
+                <label> T-shirt Size:</label>
+                <input type="radio" id="sizeS" name="tshirtSize" value="S"><label for="sizeS">S</label>
+                <input type="radio" id="sizeM" name="tshirtSize" value="M"><label for="sizeM">M</label>
+                <input type="radio" id="sizeL" name="tshirtSize" value="L"><label for="sizeL">L</label>
+                <input type="radio" id="sizeXL" name="tshirtSize" value="XL"><label for="sizeXL">XL</label>
+                <input type="radio" id="sizeXXL" name="tshirtSize" value="XXL"><label for="sizeXXL">XXL</label>
+                <span id="tshirtSizeError" class="error"></span>
+            </div>
+            <div>
+                <input type="checkbox" id="terms&conditions" name="Terms&conditions">
+                <label for="Accept"> I accept all terms and conditions</label><br>
+                <span id="checkboxError" class="error"></span>
+            </div>
+
+            <button type="submit"> Register</button>
+            <button type="reset"> Reset</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            let nameInput = document.getElementById("name");
+            let nameError = document.getElementById("nameError");
+            let emailInput = document.getElementById("email");
+            let emailError = document.getElementById("emailError");
+            let phoneInput = document.getElementById("phone");
+            let phoneError = document.getElementById("phoneError");
+            let BITSIdInput = document.getElementById("Bits-id");
+            let BITSIdError = document.getElementById("idError");
+            let hostelInput = document.getElementById("hostel");
+            let hostelError = document.getElementById("hostelError");
+            let tshirtSizeError = document.getElementById("tshirtSizeError");
+            let checkboxticked = document.getElementById("terms&conditions");
+            let checkboxError = document.getElementById("checkboxError");
+            
+            let submittedUsers = JSON.parse(localStorage.getItem("submittedUsers")) || {};
+
+            let namePattern = /^[a-zA-Z\s]{5,50}$/; // Allows only letters & spaces, 5-50 characters
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@pilani\.bits-pilani\.ac\.in$/;
+            let phonePattern = /^[0-9]{10}$/;
+            let idPattern = /^[A-Z0-9]{13}$/;
+            let isValid = true;
+
+            // Name validation
+            if (!namePattern.test(nameInput.value.trim())) {
+                nameError.textContent = "Invalid name!";
+                isValid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+            // Email validation
+            if (!emailPattern.test(emailInput.value.trim())) {
+                emailError.textContent = "Invalid email!";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Phone number validation
+            if (!phonePattern.test(phoneInput.value.trim())) {
+                phoneError.textContent = "Invalid phone number!";
+                isValid = false;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // BITS ID validation
+            if (!idPattern.test(BITSIdInput.value.trim())) {
+                BITSIdError.textContent = "Invalid BITS ID!";
+                isValid = false;
+            } else {
+                BITSIdError.textContent = "";
+            }
+
+            // Hostel selection validation
+            if (hostelInput.value === "") {
+                hostelError.textContent = "Please select a hostel!";
+                isValid = false;
+            } else {
+                hostelError.textContent = "";
+            }
+
+            // T-shirt size validation
+            let tshirtSizeSelected = document.querySelector('input[name="tshirtSize"]:checked');
+            if (!tshirtSizeSelected) {
+                tshirtSizeError.textContent = "Please select a T-shirt size!";
+                isValid = false;
+            } else {
+                tshirtSizeError.textContent = "";
+            }
+            // Terms & conditions validation
+            
+            if (!checkboxticked.checked) {
+                checkboxError.textContent = "Please agree to all terms and conditions!";
+                isValid = false;
+            } else {
+                checkboxError.textContent = "";
+            }
+            if (submittedUsers[emailInput] || submittedUsers[BITSIdInput]) {
+                emailError.textContent = "This email or BITS ID has already been used.Kindly Reload the page.";
+                idError.textContent = "This email or BITS ID has already been used.Kindly Reload the page.";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+                idError.textContent = "";
+            }
+
+            if (isValid) {
+                submittedUsers[emailInput] = true;
+                submitttheedUsers[BITSIdInput] = true;
+                localStorage.setItem("submittedUsers", JSON.stringify(submittedUsers));
+                alert("Registration successful!");
+                this.submit();
+            }
+
+            
+
+        });
+    </script>
+
+</body>
+</html>
