@@ -205,14 +205,6 @@ if (!namePattern.test(nameInput.value.trim())) {
 }
 
 // Email validation
-if(!emailPattern.test(emailValue))
-    {
-    emailError.textContent = "Invalid email!"
-    isValid = false;
-    }
-    else{
-       emailError.textContent ="";
-    }
 
 
 // Phone number validation
@@ -252,18 +244,58 @@ if (!tshirtSizeSelected) {
 if (!checkboxticked.checked) {
     checkboxError.textContent = "Please agree to all terms and conditions!";
     isValid = false;
-} else {
+} else if (!emailPattern.test(emailValue)){
+    emailError.textContent = "Invalid email!"
+    isValid = false;
+    }
+    else
+    {
     checkboxError.textContent = "";
-}
+    }
 
 // *Duplicate Entry Check*
-if (submittedUsers[emailValue] || submittedUsers[bitsIdValue]) {
+if (!emailPattern.test(emailValue))
+{
+    emailError.textContent = "Invalid email!"
+    isValid = false;   
+}
+else
+if (submittedUsers[emailValue] ) {
     emailError.textContent = "This email or BITS ID has already been used. Reload the page.";
     BITSIdError.textContent = "This email or BITS ID has already been used. Reload the page.";
     isValid = false;
 } else {
     emailError.textContent = "";
+    
+}
+// *Duplicate Entry Check*
+if (!idPattern.test(Value))
+{
+    emailError.textContent = "Invalid email!"
+    isValid = false;   
+}
+else
+if (submittedUsers[emailValue] ) {
+    emailError.textContent = "This email or BITS ID has already been used. Reload the page.";
+    BITSIdError.textContent = "This email or BITS ID has already been used. Reload the page.";
+    isValid = false;
+} else {
+    emailError.textContent = "";
+    
+}// *Duplicate Entry Check*
+if (!Pattern.test(bitsIdValue))
+{
+    emailError.textContent = "Invalid Bits-Id!"
+    isValid = false;   
+}
+else
+if (submittedUsers[bitsIdValue] ) {
+    emailError.textContent = "This email or BITS ID has already been used. Reload the page.";
+    BITSIdError.textContent = "This email or BITS ID has already been used. Reload the page.";
+    isValid = false;
+} else {
     BITSIdError.textContent = "";
+    
 }
 
 if (isValid) {
