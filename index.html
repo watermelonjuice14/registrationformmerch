@@ -215,13 +215,7 @@ if (!phonePattern.test(phoneInput.value.trim())) {
     phoneError.textContent = "";
 }
 
-// BITS ID validation
-if (!idPattern.test(bitsIdValue)) {
-    BITSIdError.textContent = "Invalid BITS ID!";
-    isValid = false;
-} else {
-    BITSIdError.textContent = "";
-}
+
 
 // Hostel selection validation
 if (hostelInput.value === "") {
@@ -253,7 +247,7 @@ if (!checkboxticked.checked) {
     checkboxError.textContent = "";
     }
 
-// *Duplicate Entry Check*
+// *Duplicate email Entry Check*
 if (!emailPattern.test(emailValue))
 {
     emailError.textContent = "Invalid email!"
@@ -268,7 +262,7 @@ if (submittedUsers[emailValue] ) {
     emailError.textContent = "";
     
 }
-// *Duplicate Entry Check*
+// *Duplicate bits id Entry Check*
 if (!idPattern.test(Value))
 {
     emailError.textContent = "Invalid email!"
