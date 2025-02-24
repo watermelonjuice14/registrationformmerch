@@ -61,10 +61,8 @@
             background-color: black;
             color: white;
         }
-        .header {
-
-        }
-        )
+        
+        
     </style>
 </head>
 <body>
@@ -140,107 +138,114 @@
     </div>
 
     <script>
-        document.getElementById("registrationForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
+            document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
 
-            let nameInput = document.getElementById("name");
-            let nameError = document.getElementById("nameError");
-            let emailInput = document.getElementById("email");
-            let emailError = document.getElementById("emailError");
-            let phoneInput = document.getElementById("phone");
-            let phoneError = document.getElementById("phoneError");
-            let BITSIdInput = document.getElementById("Bits-id");
-            let BITSIdError = document.getElementById("idError");
-            let hostelInput = document.getElementById("hostel");
-            let hostelError = document.getElementById("hostelError");
-            let tshirtSizeError = document.getElementById("tshirtSizeError");
-            let checkboxticked = document.getElementById("terms&conditions");
-            let checkboxError = document.getElementById("checkboxError");
+    let nameInput = document.getElementById("name");
+    let nameError = document.getElementById("nameError");
+    let emailInput = document.getElementById("email");
+    let emailError = document.getElementById("emailError");
+    let phoneInput = document.getElementById("phone");
+    let phoneError = document.getElementById("phoneError");
+    let BITSIdInput = document.getElementById("Bits-id");
+    let BITSIdError = document.getElementById("idError");
+    let hostelInput = document.getElementById("hostel");
+    let hostelError = document.getElementById("hostelError");
+    let tshirtSizeError = document.getElementById("tshirtSizeError");
+    let checkboxticked = document.getElementById("terms&conditions");
+    let checkboxError = document.getElementById("checkboxError");
+
+    // Ensure localStorage returns an object
+    let submittedUsers = JSON.parse(localStorage.getItem("submittedUsers")) || {};
+
+    let namePattern = /^[a-zA-Z\s]{5,50}$/;
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@pilani\.bits-pilani\.ac\.in$/;
+    let phonePattern = /^[0-9]{10}$/;
+    let idPattern = /^[A-Z0-9]{13}$/;
+    let isValid = true;
+
+    let emailValue = emailInput.value.trim();
+    let bitsIdValue = BITSIdInput.value.trim();
+
+    // Name validation
+    if (!namePattern.test(nameInput.value.trim())) {
+        nameError.textContent = "Invalid name!";
+        isValid = false;
+    } else {
+        nameError.textContent = "";
+    }
+
+    // Email validation
+    if (!emailPattern.test(emailValue)) {
+        emailError.textContent = "Invalid email!";
+        isValid = false;
+    } else {
+        emailError.textContent = "";
+    }
+
+    // Phone number validation
+    if (!phonePattern.test(phoneInput.value.trim())) {
+        phoneError.textContent = "Invalid phone number!";
+        isValid = false;
+    } else {
+        phoneError.textContent = "";
+    }
+
+    // BITS ID validation
+    if (!idPattern.test(bitsIdValue)) {
+        BITSIdError.textContent = "Invalid BITS ID!";
+        isValid = false;
+    } else {
+        BITSIdError.textContent = "";
+    }
+
+    // Hostel selection validation
+    if (hostelInput.value === "") {
+        hostelError.textContent = "Please select a hostel!";
+        isValid = false;
+    } else {
+        hostelError.textContent = "";
+    }
+
+    // T-shirt size validation
+    let tshirtSizeSelected = document.querySelector('input[name="tshirtSize"]:checked');
+    if (!tshirtSizeSelected) {
+        tshirtSizeError.textContent = "Please select a T-shirt size!";
+        isValid = false;
+    } else {
+        tshirtSizeError.textContent = "";
+    }
+
+    // Terms & conditions validation
+    if (!checkboxticked.checked) {
+        checkboxError.textContent = "Please agree to all terms and conditions!";
+        isValid = false;
+    } else {
+        checkboxError.textContent = "";
+    }
+
+    // **Duplicate Entry Check**
+    if (submittedUsers[emailValue] || submittedUsers[bitsIdValue]) {
+        emailError.textContent = "This email or BITS ID has already been used. Reload the page.";
+        BITSIdError.textContent = "This email or BITS ID has already been used. Reload the page.";
+        isValid = false;
+    } else {
+        emailError.textContent = "";
+        BITSIdError.textContent = "";
+    }
+
+    if (isValid) {
+        submittedUsers[emailValue] = true;
+        submittedUsers[bitsIdValue] = true;
+        localStorage.setItem("submittedUsers", JSON.stringify(submittedUsers));
+
+        alert("Registration successful!");
+        document.getElementById("registrationForm").reset();
+    }});
+
             
-            let submittedUsers = JSON.parse(localStorage.getItem("submittedUsers")) || {};
 
-            let namePattern = /^[a-zA-Z\s]{5,50}$/; // Allows only letters & spaces, 5-50 characters
-            let emailPattern = /^[a-zA-Z0-9._%+-]+@pilani\.bits-pilani\.ac\.in$/;
-            let phonePattern = /^[0-9]{10}$/;
-            let idPattern = /^[A-Z0-9]{13}$/;
-            let isValid = true;
-
-            // Name validation
-            if (!namePattern.test(nameInput.value.trim())) {
-                nameError.textContent = "Invalid name!";
-                isValid = false;
-            } else {
-                nameError.textContent = "";
-            }
-
-            // Email validation
-            if (!emailPattern.test(emailInput.value.trim())) {
-                emailError.textContent = "Invalid email!";
-                isValid = false;
-            } else {
-                emailError.textContent = "";
-            }
-
-            // Phone number validation
-            if (!phonePattern.test(phoneInput.value.trim())) {
-                phoneError.textContent = "Invalid phone number!";
-                isValid = false;
-            } else {
-                phoneError.textContent = "";
-            }
-
-            // BITS ID validation
-            if (!idPattern.test(BITSIdInput.value.trim())) {
-                BITSIdError.textContent = "Invalid BITS ID!";
-                isValid = false;
-            } else {
-                BITSIdError.textContent = "";
-            }
-
-            // Hostel selection validation
-            if (hostelInput.value === "") {
-                hostelError.textContent = "Please select a hostel!";
-                isValid = false;
-            } else {
-                hostelError.textContent = "";
-            }
-
-            // T-shirt size validation
-            let tshirtSizeSelected = document.querySelector('input[name="tshirtSize"]:checked');
-            if (!tshirtSizeSelected) {
-                tshirtSizeError.textContent = "Please select a T-shirt size!";
-                isValid = false;
-            } else {
-                tshirtSizeError.textContent = "";
-            }
-            // Terms & conditions validation
-            
-            if (!checkboxticked.checked) {
-                checkboxError.textContent = "Please agree to all terms and conditions!";
-                isValid = false;
-            } else {
-                checkboxError.textContent = "";
-            }
-            if (submittedUsers[emailInput] || submittedUsers[BITSIdInput]) {
-                emailError.textContent = "This email or BITS ID has already been used.Kindly Reload the page.";
-                idError.textContent = "This email or BITS ID has already been used.Kindly Reload the page.";
-                isValid = false;
-            } else {
-                emailError.textContent = "";
-                idError.textContent = "";
-            }
-
-            if (isValid) {
-                submittedUsers[emailInput] = true;
-                submitttheedUsers[BITSIdInput] = true;
-                localStorage.setItem("submittedUsers", JSON.stringify(submittedUsers));
-                alert("Registration successful!");
-                this.submit();
-            }
-
-            
-
-        });
+        
     </script>
 
 </body>
