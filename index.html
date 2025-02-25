@@ -303,7 +303,17 @@ if (isValid) {
 
         
 
-    
+   
+
+fetch("https://cors-anywhere.herokuapp.com/https://www.foo.com", {
+  method: "POST",  // Send a POST request
+  headers: { "Content-Type": "application/json" }, // Tell server we're sending JSON data
+  body: JSON.stringify({ name: "binisha", email: "dvmfrontend.gmail.com" }) // Convert object to JSON format
+})
+.then(response => response.text())  // Convert response to text
+.then(data => console.log(data))  // Log the response (should show "404 Not Found")
+.catch(error => console.error(error));  // Handle any errors
+
 </script>
 
     
